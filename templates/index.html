@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Notes</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>🧠 Smart Notes App</h1>
+
+<div class="stats">Total Notes: {{ notes|length }}</div>
+
+<input type="text" id="search" placeholder="🔍 Search notes...">
+
+<!-- TAG FILTER -->
+<div class="filters">
+    <button onclick="filterTag('All')">All</button>
+    <button onclick="filterTag('Work')">Work</button>
+    <button onclick="filterTag('Personal')">Personal</button>
+    <button onclick="filterTag('Important')">Important</button>
+</div>
+
+<form action="/add" method="POST">
+    <input type="text" name="title" placeholder="Title" required>
+    <textarea name="content" placeholder="Write note..." required></textarea>
+
+    <select name="tag">
+        <option value="Work">Work</option>
+        <option value="Personal">Personal</option>
+        <option value="Important">Important</option>
+    </select>
+
+    <button type="submit">Add Note</button>
+</form>
+
+<div id="notes">
+    {% for note in notes %}
+    <div class="note">
+        <h3>{{ note.title }}</h3>
+        <p>{{ note.content }}</p>
+        <span class="tag">{{ note.tag }}</span>
+        <small>{{ note.created_at }}</small><br>
+
+        <a href="/edit/{{ note.id }}">✏️ Edit</a>
+        <a href="/delete/{{ note.id }}">❌ Delete</a>
+    </div>
+    {% endfor %}
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
